@@ -8,6 +8,7 @@ self.addEventListener('install', function(event) {
       .then(function(cache) {
         cache.addAll([
           '/',
+          '/offline.html',
           '/index.html',
           '/src/css/app.css',
           '/src/css/main.css',
@@ -33,6 +34,8 @@ self.addEventListener('activate', function(event) {
       })
   );
 });
+// ------------------------- 1 -------------------------
+// Cache first with network fallback
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
@@ -49,10 +52,180 @@ self.addEventListener('fetch', function(event) {
                   return res;
                 });
             })
-            .catch(function(err) {
-
-            });
+            .catch(function (err) {
+                return caches.open(CACHE_STATIC_NAME)
+                  .then(function (cache) {
+                    if (event.request.headers.get('accept').includes('text/html')) {
+                      return cache.match('/offline.html');
+                    }
+                  });
+              })
         }
       })
   );
 });
+// ------------------------- 1 -------------------------
+
+
+
+
+// ------------------------- 2 -------------------------
+// Only Network Strategy
+// self.addEventListener('fetch', function(event) {
+//   event.respondWith(fetch(event.request)
+//     .then(function(res) {
+//       return caches.open(CACHE_DYNAMIC_NAME)
+//         .then(function(cache) {
+//           cache.put(event.request.url, res.clone());
+//           return res;
+//         });
+//     })
+//     .catch(function (err) {
+//       return caches.open(CACHE_STATIC_NAME)
+//         .then(function (cache) {
+//           if (event.request.headers.get('accept').includes('text/html')) {
+//             return cache.match('/offline.html');
+//           }
+//         });
+//     })
+//   );
+// });
+
+// ------------------------- 2 -------------------------
+
+
+// ------------------------- 3 -------------------------
+// Only Cache Strategy
+
+
+
+// self.addEventListener('fetch', function(event) {
+//   event.respondWith(
+//     caches.match(event.request)
+//       .then((response) => {
+//         if(response)
+//           return response
+//         else console.log("No se encontro la información")
+//       })
+//       .catch(function(err) {
+//         console.log("Se ha producido un error " + err)
+//       })  
+//   );
+// });
+
+// ------------------------- 3 -------------------------
+
+// ------------------------- 4 -------------------------
+// "Network, cache fallback"
+
+
+
+// self.addEventListener('fetch', function(event) {
+//   event.respondWith(
+//         fetch(event.request)
+//         .catch(err => {
+//           return caches.match(event.request)})       
+//       )
+      
+// });
+
+// ------------------------- 4 -------------------------
+
+
+
+// // ------------------------- 5 -------------------------
+
+// // Cache, then network
+// self.addEventListener ( 'fetch' , function (event) {
+//   event.respondWith(    
+//     fetch(event.request)
+//       .then(function (res) {
+//         return caches.open(CACHE_DYNAMIC_NAME)
+//           .then(function (cache) {
+//             cache.put(event.request.url, res.clone());
+//             return res;
+//           })
+//       })
+//       .catch(function(err) {
+//         console.log("caigo en el catch")
+//         return caches.match(event.request);
+//       })
+//       .catch(function (err) {
+//         return caches.open(CACHE_STATIC_NAME)
+//           .then(function (cache) {
+//             if (event.request.headers.get('accept').includes('text/html')) {
+//               return cache.match('/offline.html');
+//             }
+//           });
+//       })
+//   );
+// })
+
+// ------------------------- 5 -------------------------
+
+
+
+
+// ------------------------- 6 --------------------------
+// NO funciona todavia
+// NO funciona todavia
+// NO funciona todavia
+// function isInArray(string, array) {
+//   var cachePath;
+//   if (string.indexOf(self.origin) === 0) { // request targets domain where we serve the page from (i.e. NOT a CDN)
+//     cachePath = string.substring(self.origin.length); // take the part of the URL AFTER the domain (e.g. after localhost:8080)
+//   } else {
+//     cachePath = string; // store the full request (for CDNs)
+//   }
+//   return array.indexOf(cachePath) > -1;
+// }
+
+// self.addEventListener('fetch', function (event) {
+
+//   var url = 'https://httpbin.org/ip';
+//   if (event.request.url.indexOf(url) > -1) {
+//     // Network only
+//     event.respondWith(
+//       fetch(event.request)
+//           .then(function (res) {
+//             return caches.open(CACHE_DYNAMIC_NAME)
+//               .then(function (cache) {
+//                 cache.put(event.request.url, res.clone());
+//                 return res;
+//               })
+//           })
+//     );
+//     // Cache only
+//   } else if (isInArray(event.request.url, STATIC_FILES)) {
+//     event.respondWith(
+//       caches.match(event.request)
+//     );
+//   } else {
+//     event.respondWith(
+//       // Cache with network fallback
+//       caches.match(event.request)
+//         .then(function (response) {
+//           if (response) {
+//             return response;
+//           } else {
+//             return fetch(event.request)
+//               .then(function (res) {
+//                 return caches.open(CACHE_DYNAMIC_NAME)
+//                   .then(function (cache) {
+//                     cache.put(event.request.url, res.clone());
+//                     return res;
+//                   })
+//               })
+//               .catch(function (err) {
+//                 return caches.open(CACHE_STATIC_NAME)
+//                   .then(function (cache) {
+//                     if (event.request.headers.get('accept').includes('text/html')) {
+//                       return cache.match('/offline.html');
+//                     }
+//                   });
+//               });
+//           }
+//         })
+//     );
+//   }
+// });
