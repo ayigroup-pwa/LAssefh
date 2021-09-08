@@ -18,18 +18,18 @@ button.addEventListener('click', function(event) {
   }
 });
 
-fetch('https://httpbin.org/ip')
-  .then(function(res) {
-    return res.json();
-  })
-  .then(function(data) {
-    console.log(data.origin);
-    box.style.height = (data.origin.substr(0, 2) * 5) + 'px';
-  });
+// fetch('https://httpbin.org/ip')
+//   .then(function(res) {
+//     return res.json();
+//   })
+//   .then(function(data) {
+//     console.log(data.origin);
+//     box.style.height = (data.origin.substr(0, 2) * 5) + 'px';
+//   });
 
 
-  // var url = 'https://httpbin.org/ip';
-  // var networkData = false;
+  var url = 'https://httpbin.org/ip';
+  var networkData = false;
 
 
   // //Data from network
@@ -38,7 +38,6 @@ fetch('https://httpbin.org/ip')
   //     return res.json();
   //   })
   //   .then(function(data) {
-  //     console.log("Entre al network")
   //     networkData = true;
   //     console.log(data.origin);
   //     box.style.height = (data.origin.substr(0, 2) * 5) + 'px';
@@ -55,7 +54,6 @@ fetch('https://httpbin.org/ip')
   //     })
   //     .then(function (data) {
   //       if (!networkData) {
-  //         console.log("Entre no network")
   //         console.log(data.origin);
   //         box.style.height = (data.origin.substr(0, 2) * 5) + 'px';
   //       }

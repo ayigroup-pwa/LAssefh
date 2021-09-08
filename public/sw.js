@@ -167,9 +167,9 @@ self.addEventListener('fetch', function(event) {
 
 
 // ------------------------- 6 --------------------------
-// NO funciona todavia
-// NO funciona todavia
-// NO funciona todavia
+
+
+
 // function isInArray(string, array) {
 //   var cachePath;
 //   if (string.indexOf(self.origin) === 0) { // request targets domain where we serve the page from (i.e. NOT a CDN)
