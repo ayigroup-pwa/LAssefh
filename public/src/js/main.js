@@ -28,35 +28,35 @@ button.addEventListener('click', function(event) {
 //   });
 
 
-  // var url = 'https://httpbin.org/ip';
-  // var networkData = false;
+  var url = 'https://httpbin.org/ip';
+  var networkData = false;
 
 
-  // //Data from network
-  // fetch(url)
-  //   .then(function(res) {
-  //     return res.json();
-  //   })
-  //   .then(function(data) {
-  //     networkData = true;
-  //     console.log(data.origin);
-  //     box.style.height = (data.origin.substr(0, 2) * 5) + 'px';
-  //   });
+  //Data from network
+  fetch(url)
+    .then(function(res) {
+      return res.json();
+    })
+    .then(function(data) {
+      networkData = true;
+      console.log(data.origin);
+      box.style.height = (data.origin.substr(0, 2) * 5) + 'px';
+    });
 
 
 
-  // //Data from cache
-  // if ( 'caches' in window){
-  //   caches.match(url)
-  //     .then(function(resp) {
-  //       if (!resp) throw Error ("No data");
-  //       return resp.json();
-  //     })
-  //     .then(function (data) {
-  //       if (!networkData) {
-  //         console.log(data.origin);
-  //         box.style.height = (data.origin.substr(0, 2) * 5) + 'px';
-  //       }
-  //     })
-  // }
+  //Data from cache
+  if ( 'caches' in window){
+    caches.match(url)
+      .then(function(resp) {
+        if (!resp) throw Error ("No data");
+        return resp.json();
+      })
+      .then(function (data) {
+        if (!networkData) {
+          console.log(data.origin);
+          box.style.height = (data.origin.substr(0, 2) * 5) + 'px';
+        }
+      })
+  }
   

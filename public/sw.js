@@ -37,33 +37,33 @@ self.addEventListener('activate', function(event) {
 // ------------------------- 1 -------------------------
 // Cache first with network fallback
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        if (response) {
-          return response;
-        } else {
-          return fetch(event.request)
-            .then(function(res) {
-              return caches.open(CACHE_DYNAMIC_NAME)
-                .then(function(cache) {
-                  cache.put(event.request.url, res.clone());
-                  return res;
-                });
-            })
-            .catch(function (err) {
-                return caches.open(CACHE_STATIC_NAME)
-                  .then(function (cache) {
-                    if (event.request.headers.get('accept').includes('text/html')) {
-                      return cache.match('/offline.html');
-                    }
-                  });
-              })
-        }
-      })
-  );
-});
+// self.addEventListener('fetch', function(event) {
+//   event.respondWith(
+//     caches.match(event.request)
+//       .then(function(response) {
+//         if (response) {
+//           return response;
+//         } else {
+//           return fetch(event.request)
+//             .then(function(res) {
+//               return caches.open(CACHE_DYNAMIC_NAME)
+//                 .then(function(cache) {
+//                   cache.put(event.request.url, res.clone());
+//                   return res;
+//                 });
+//             })
+//             .catch(function (err) {
+//                 return caches.open(CACHE_STATIC_NAME)
+//                   .then(function (cache) {
+//                     if (event.request.headers.get('accept').includes('text/html')) {
+//                       return cache.match('/offline.html');
+//                     }
+//                   });
+//               })
+//         }
+//       })
+//   );
+// });
 // ------------------------- 1 -------------------------
 
 
@@ -171,52 +171,52 @@ self.addEventListener('fetch', function(event) {
 // Routing
 
 
-// self.addEventListener('fetch', function (event) {
+self.addEventListener('fetch', function (event) {
 
-//   var url = 'https://httpbin.org/ip';
-//   if (event.request.url.indexOf(url) > -1) {
-//     // Network only
-//     event.respondWith(
-//       fetch(event.request)
-//           .then(function (res) {
-//             return caches.open(CACHE_DYNAMIC_NAME)
-//               .then(function (cache) {
-//                 cache.put(event.request.url, res.clone());
-//                 return res;
-//               })
-//           })
-//     );
-//     // Cache only
-//   } else if (CACHE_STATIC_NAME.includes(event.request.url)) {  
-//       event.respondWith(
-//         caches.match(event.request.url)
-//       );
-//   } else {
-//     event.respondWith(
-//       // Cache with network fallback
-//       caches.match(event.request)
-//         .then(function (response) {
-//           if (response) {
-//             return response;
-//           } else {
-//             return fetch(event.request)
-//               .then(function (res) {
-//                 return caches.open(CACHE_DYNAMIC_NAME)
-//                   .then(function (cache) {
-//                     cache.put(event.request.url, res.clone());
-//                     return res;
-//                   })
-//               })
-//               .catch(function (err) {
-//                 return caches.open(CACHE_STATIC_NAME)
-//                   .then(function (cache) {
-//                     if (event.request.headers.get('accept').includes('text/html')) {
-//                       return cache.match('/offline.html');
-//                     }
-//                   });
-//               });
-//           }
-//         })
-//     );
-//   }
-// });
+  var url = 'https://httpbin.org/ip';
+  if (event.request.url.indexOf(url) > -1) {
+    // Network only
+    event.respondWith(
+      fetch(event.request)
+          .then(function (res) {
+            return caches.open(CACHE_DYNAMIC_NAME)
+              .then(function (cache) {
+                cache.put(event.request.url, res.clone());
+                return res;
+              })
+          })
+    );
+    // Cache only
+  } else if (CACHE_STATIC_NAME.includes(event.request.url)) {  
+      event.respondWith(
+        caches.match(event.request.url)
+      );
+  } else {
+    event.respondWith(
+      // Cache with network fallback
+      caches.match(event.request)
+        .then(function (response) {
+          if (response) {
+            return response;
+          } else {
+            return fetch(event.request)
+              .then(function (res) {
+                return caches.open(CACHE_DYNAMIC_NAME)
+                  .then(function (cache) {
+                    cache.put(event.request.url, res.clone());
+                    return res;
+                  })
+              })
+              .catch(function (err) {
+                return caches.open(CACHE_STATIC_NAME)
+                  .then(function (cache) {
+                    if (event.request.headers.get('accept').includes('text/html')) {
+                      return cache.match('/offline.html');
+                    }
+                  });
+              });
+          }
+        })
+    );
+  }
+});
