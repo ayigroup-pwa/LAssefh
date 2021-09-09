@@ -28,8 +28,8 @@ button.addEventListener('click', function(event) {
 //   });
 
 
-  var url = 'https://httpbin.org/ip';
-  var networkData = false;
+  // var url = 'https://httpbin.org/ip';
+  // var networkData = false;
 
 
   // //Data from network

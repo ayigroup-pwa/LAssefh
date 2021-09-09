@@ -168,17 +168,8 @@ self.addEventListener('fetch', function(event) {
 
 // ------------------------- 6 --------------------------
 
+// Routing
 
-
-// function isInArray(string, array) {
-//   var cachePath;
-//   if (string.indexOf(self.origin) === 0) { // request targets domain where we serve the page from (i.e. NOT a CDN)
-//     cachePath = string.substring(self.origin.length); // take the part of the URL AFTER the domain (e.g. after localhost:8080)
-//   } else {
-//     cachePath = string; // store the full request (for CDNs)
-//   }
-//   return array.indexOf(cachePath) > -1;
-// }
 
 // self.addEventListener('fetch', function (event) {
 
@@ -196,10 +187,10 @@ self.addEventListener('fetch', function(event) {
 //           })
 //     );
 //     // Cache only
-//   } else if (isInArray(event.request.url, STATIC_FILES)) {
-//     event.respondWith(
-//       caches.match(event.request)
-//     );
+//   } else if (CACHE_STATIC_NAME.includes(event.request.url)) {  
+//       event.respondWith(
+//         caches.match(event.request.url)
+//       );
 //   } else {
 //     event.respondWith(
 //       // Cache with network fallback
